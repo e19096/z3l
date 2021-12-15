@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { Auth } from 'aws-amplify';
 import { BASE_URL } from '../constants';
 
 export default function Reservations() {
@@ -9,14 +8,14 @@ export default function Reservations() {
   useEffect(() => {
     fetch(`${BASE_URL}/reservations`, {
       headers: {
-        Authorization: localStorage.getItem('user'),
+        Authorization: localStorage.getItem('userToken'),
       }
     })
       .then(resp => resp.json())
       .then(data => {
         // TODO catch 401 here
         console.log(data.data);
-        setReservations(data.data)
+        setReservations(data.data);
       })
       .catch((error) => {
         console.error('Error:', error);
