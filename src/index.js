@@ -6,6 +6,7 @@ import {
   Route
 } from "react-router-dom";
 import App from './App';
+// import Login from "./routes/login";
 import Trucks from "./routes/trucks";
 import Reservations from "./routes/reservations";
 import './index.css';
@@ -22,14 +23,14 @@ import './index.css';
 //   rootElement
 // );
 
-// import Amplify from 'aws-amplify';
-// Amplify.configure({
-//   Auth: {
-//     userPoolId: 'XX-XXXXX_XXXXXX', //UserPool ID
-//     region: 'XXXXXX',
-//     userPoolWebClientId: 'XXXXXXXXXXXXXXX' //WebClientId
-//   }
-// });
+import Amplify from 'aws-amplify';
+Amplify.configure({
+  Auth: {
+    userPoolId: 'us-east-2_OfO9zaVMY', //UserPool ID
+    region: 'us-east-2',
+    userPoolWebClientId: '28427m4ef9sv96kd3gatpdhsmo', //WebClientId
+  }
+});
 
 const rootElement = document.getElementById("root");
 render(

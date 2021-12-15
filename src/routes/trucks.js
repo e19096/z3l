@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
+import { Auth } from 'aws-amplify';
 import { BASE_URL } from '../constants';
 
 class Trucks extends React.Component {
@@ -17,24 +18,16 @@ class Trucks extends React.Component {
 
   fetchTrucks = () => {
     const { start_dt_iso, end_dt_iso } = this.state;
-    fetch(`${BASE_URL}/trucks?start_dt=${start_dt_iso}&end_dt=${end_dt_iso}`)
+    const query_params = new URLSearchParams({
+      start_dt: start_dt_iso,
+      end_dt: end_dt_iso,
+    }).toString()
+
+    fetch(`${BASE_URL}/trucks?${query_params}`)
       .then(resp => resp.json())
       .then(data => {
         console.log(data.data);
         this.setState({ trucks: data.data || [] }); // TODO collapse by truck name
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }
-
-  fetchReservations = () => {
-    const { start_dt_iso, end_dt_iso } = this.state;
-    fetch(`${BASE_URL}/trucks?start_dt=${start_dt_iso}&end_dt=${end_dt_iso}`)
-      .then(resp => resp.json())
-      .then(data => {
-        console.log(data.data);
-        this.setState({ trucks: data.data || [] });
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -53,13 +46,17 @@ class Trucks extends React.Component {
     const truckId = e.target.dataset.truckId;
     const { start_dt_iso, end_dt_iso } = this.state;
     const query_params = new URLSearchParams({
-      user_id: 99,
       truck_id: truckId,
       start_dt: start_dt_iso,
       end_dt: end_dt_iso,
     }).toString()
 
-    fetch(`${BASE_URL}/reservations?${query_params}`, { method: 'POST' })
+    fetch(`${BASE_URL}/reservations?${query_params}`, {
+      method: 'POST',
+      headers: {
+        Authorization: localStorage.getItem('user'),
+      },
+    })
       .then(resp => resp.json())
       .then(data => {
         console.log(data.data);
@@ -134,5 +131,5 @@ function ReservationsButton() {
 export default Trucks;
 
 // TODO redux/middleware
-// TODO error handling/user friendly msging
+// TODO error handling/user friendly msging/loading, empty states
 // TODO validate params before calling api

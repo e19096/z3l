@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { Auth } from 'aws-amplify';
 import { BASE_URL } from '../constants';
 
 export default function Reservations() {
   const [reservations, setReservations] = useState([]);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/reservations?user_id=99`)
+    fetch(`${BASE_URL}/reservations`, {
+      headers: {
+        Authorization: localStorage.getItem('user'),
+      }
+    })
       .then(resp => resp.json())
       .then(data => {
+        // TODO catch 401 here
         console.log(data.data);
         setReservations(data.data)
       })
@@ -50,7 +56,7 @@ function TrucksButton() {
 
   return (
     <button onClick={() => navigate("/trucks")}>
-      Find another truck
+      Find a truck
     </button>
   );
 }
