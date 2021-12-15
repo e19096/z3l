@@ -17,10 +17,10 @@ function App({ signOut, user }) {
           padding: "1rem 0"
         }}
       >
-        <Link to="/trucks" state={{ userToken: user.signInUserSession.idToken.jwtToken }}>
+        <Link to="/trucks">
           trucks
         </Link> |{" "}
-        <Link to="/reservations" state={{ userToken: user.signInUserSession.idToken.jwtToken }}>
+        <Link to="/reservations">
           reservations
         </Link> |{" "}
         <button onClick={signOut}>Sign out</button>
@@ -28,32 +28,6 @@ function App({ signOut, user }) {
       <Outlet />
     </div>
   )
-
-//   return (
-//     <Authenticator loginMechanisms={['email']}>
-//       {({ signOut, user }) => (
-//         <main>
-//           <h1>Hello {user.username}</h1>
-//           <button onClick={signOut}>Sign out</button>
-//         </main>
-//       )}
-//       <div className="App">
-//         <header className="App-header">
-//           hello welcome
-//         </header>
-//         <nav
-//           style={{
-//             borderBottom: "solid 1px",
-//             padding: "1rem 0"
-//           }}
-//         >
-//           <Link to="/trucks">trucks</Link> |{" "}
-//           <Link to="/reservations">reservations</Link>
-//         </nav>
-//         <Outlet />
-//       </div>
-//     </Authenticator>
-//   );
 }
 
 export default withAuthenticator(App);
